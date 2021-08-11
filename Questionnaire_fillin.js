@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.2.5
-// @description  try to take over the world!
-// @author       Adam
-// @require https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
-// @require https://raw.githubusercontent.com/uzairfarooq/arrive/master/minified/arrive.min.js
+// @version      0.2.6
+// @description  Autofill the Watchman Implant Questionnaire
+// @author       Adam Meyers
+// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
+// @require      https://raw.githubusercontent.com/uzairfarooq/arrive/master/minified/arrive.min.js
 // @match        https://www.tampermonkey.net/index.php?version=4.13&ext=dhdg&updated=true
 // @icon         https://www.google.com/s2/favicons?domain=tampermonkey.net
 // @grant        none
@@ -18,7 +18,6 @@
 (function() {
     'use strict';
 
-    console.log("github script start5.. ")
     const wait = 500;
     let qualified = true;
     let d = new Date().valueOf();
