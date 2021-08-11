@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.2.3
+// @version      0.2.4
 // @description  try to take over the world!
 // @author       Adam
 // @require https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -18,7 +18,7 @@
 (function() {
     'use strict';
 
-    console.log("github script start.. ")
+    console.log("github script start2.. ")
     const wait = 500;
     let qualified = true;
     let d = new Date().valueOf();
