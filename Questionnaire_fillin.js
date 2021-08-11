@@ -189,7 +189,6 @@
         // Phone modal
         $(document).arrive(".phone-modal", function () {
             // sex and DOB
-            console.log("phone modal");
             setTimeout( function () {
                 $("input[type=tel]").val("2223334444")[0].dispatchEvent(new Event('input'));
             }, wait/3);
