@@ -18,6 +18,7 @@
 (function() {
     'use strict';
 
+    console.log("github script start.. ")
     const wait = 500;
     let qualified = true;
     let d = new Date().valueOf();
