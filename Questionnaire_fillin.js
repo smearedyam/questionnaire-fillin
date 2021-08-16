@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.2.8
+// @version      0.2.9
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -64,12 +64,11 @@
 
     function convertIntToString(num) {
         let val = "";
-        for (let i = 0; i < num.length; i++) {
+        for (let i = 0; i < num.toString().length; i++) {
             const digit = num.toString()[i];
             const char = String.fromCharCode(97 + parseInt(digit));
             val += char;
         }
-        console.log("converted is: " + val);
         return val;
     }
 
