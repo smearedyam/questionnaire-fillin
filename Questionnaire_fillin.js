@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.2.6
+// @version      0.2.7
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -21,6 +21,7 @@
     const wait = 500;
     let qualified = true;
     let d = new Date().valueOf();
+    let uniqueLastName = convertIntToString(d);
     let email = d + '@test.com';
 
     let floatingMenu = document.createElement("span");
@@ -59,6 +60,16 @@
                 document.getElementById("floatingMenu").style.visibility = "hidden";
             });
         }, 300);
+    }
+
+    function convertIntToString(num) {
+        let val = "";
+        for (let i = 0; i < num.length; i++) {
+            const digit = num.toString()[i];
+            const char = String.fromCharCode(97 + parseInt(digit));
+            val += char;
+        }
+        return val;
     }
 
     function fillFormQualified() {
@@ -175,7 +186,7 @@
 
                 $("input[inputmode=numeric]").val("90210")[0].dispatchEvent(new Event('input'));
                 $("input[type=text]:not('[inputmode=numeric]')").val("firsttest" + (qualified ? "" : "UNqualified"))[0].dispatchEvent(new Event('input'));
-                $("input[type=text]:not('[inputmode=numeric]')").val("lasttest" + d + (qualified ? "" : "UNqualified"))[1].dispatchEvent(new Event('input'));
+                $("input[type=text]:not('[inputmode=numeric]')").val("lasttest" + uniqueLastName + (qualified ? "" : "UNqualified"))[1].dispatchEvent(new Event('input'));
                 $("input[type=email]").val(email)[0].dispatchEvent(new Event('input'));
                 //             $vm0.firstNAme = "first";
                 //             $vm1.lastName = "last";
