@@ -69,6 +69,7 @@
             const char = String.fromCharCode(97 + parseInt(digit));
             val += char;
         }
+        console.log("converted is: " + val);
         return val;
     }
 
