@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.2.12
+// @version      0.2.13
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -17,6 +17,10 @@
 
 (function() {
     'use strict';
+
+    $(document).ready(function() {
+        armButton();
+    })
 
     const wait = 500;
     let qualified = true;
@@ -47,10 +51,6 @@
 
     init();
 
-    $(document).ready(function() {
-        armButton();
-    })
-
     function armButton() {
         setTimeout( function () {
             // hide button and unbind arrive if user doesn't use it
@@ -58,8 +58,10 @@
                 // console.log("clicked button");
                 $(document).unbindArrive();
                 document.getElementById("floatingMenu").style.visibility = "hidden";
+                // doesn't always work??
+                setTimeout($(document).unbindArrive(), 10);
             });
-        }, 300);
+        }, 200);
     }
 
     function convertIntToString(num) {
