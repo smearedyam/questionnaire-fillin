@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.2.13
+// @version      0.2.14
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -24,6 +24,7 @@
 
     const wait = 500;
     let qualified = true;
+    let haltAutofill = false;
     let d = new Date().valueOf();
     let uniqueLastName = convertIntToString(d);
     let email = d + '@test.com';
@@ -56,6 +57,7 @@
             // hide button and unbind arrive if user doesn't use it
             $("#question_1001 .v-btn__content").on("click", function() {
                 // console.log("clicked button");
+                haltAutofill = true;
                 $(document).unbindArrive();
                 document.getElementById("floatingMenu").style.visibility = "hidden";
                 // doesn't always work??
@@ -104,11 +106,15 @@
         uniqueLastName = convertIntToString(d);
         email = d + '@test.com';
         armButton();
+        haltAutofill = false;
     };
 
     function init() {
         //  2nd question
         $(document).arrive("#question_content_1002", function () {
+            if (haltAutofill) {
+                return;
+            }
             if (qualified) {
                 $(".yes").click();
             } else {
@@ -123,6 +129,9 @@
 
         // sex and DOB
         $(document).arrive("input[type=text]", function () {
+            if (haltAutofill) {
+                return;
+            }           
             // sex
             $(".v-input--selection-controls__ripple").click();
             // dob
@@ -135,6 +144,9 @@
 
         // Q4
         $(document).arrive("#option_10041", function () {
+            if (haltAutofill) {
+                return;
+            }            
             $("#option_10041").click();
             if (qualified) {
                 setTimeout( function () {
@@ -151,6 +163,9 @@
 
         // Q5
         $(document).arrive("#option_10051", function () {
+            if (haltAutofill) {
+                return;
+            }            
             $("#option_10051").click();
             if (qualified) {
                 setTimeout( function () {
@@ -168,6 +183,9 @@
 
         // Q6
         $(document).arrive("#option_10061", function () {
+            if (haltAutofill) {
+                return;
+            }            
             $("#option_10061").click();
             if (qualified) {
                 setTimeout( function () {
@@ -184,6 +202,9 @@
 
         // Name/address/dob
         $(document).arrive(".form-entry-header", function () {
+            if (haltAutofill) {
+                return;
+            }            
             setTimeout( function () {
 
 
