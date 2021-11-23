@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.2.14
+// @version      0.2.15
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -55,7 +55,7 @@
     function armButton() {
         setTimeout( function () {
             // hide button and unbind arrive if user doesn't use it
-            $("#question_1001 .v-btn__content").on("click", function() {
+            $("button[type=submit]").on("click", function() {
                 // console.log("clicked button");
                 haltAutofill = true;
                 $(document).unbindArrive();
@@ -90,12 +90,12 @@
         // hide menu
         document.getElementById("floatingMenu").style.visibility = "hidden";
         // unbind click on btn
-        $("#question_1001 .v-btn__content").prop("onclick", null).off("click");
+        $("button[type=submit]").prop("onclick", null).off("click");
 
         // first q should be onscreen and not need to wait
         $(".yes").click();
         setTimeout( function () {
-            $(".v-btn__content").click();
+            $("button[type=submit]").click();
         }, wait);
     }
 
@@ -122,7 +122,7 @@
             }
 
             setTimeout( function () {
-                $(".v-btn__content").click();
+                $("button[type=submit]").click();
             }, wait/2)
 
         });
@@ -137,7 +137,7 @@
             // dob
             $("input[type=text]").val("11111911").blur();
             setTimeout( function () {
-                $(".v-btn__content").click();
+                $("button[type=submit]").click();
             }, wait);
 
         });
@@ -157,7 +157,7 @@
                 }, wait/2);
             }
             setTimeout( function () {
-                $(".v-btn__content").click();
+                $("button[type=submit]").click();
             }, wait);
         });
 
@@ -177,7 +177,7 @@
 
             }
             setTimeout( function () {
-                $(".v-btn__content").click();
+                $("button[type=submit]").click();
             }, wait);
         });
 
@@ -196,7 +196,7 @@
                 }, wait/2);
             }
             setTimeout( function () {
-                $(".v-btn__content").click();
+                $("button[type=submit]").click();
             }, wait);
         });
 
