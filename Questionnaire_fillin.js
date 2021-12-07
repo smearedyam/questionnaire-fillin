@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.2.16
+// @version      0.3.0
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -21,7 +21,7 @@
 
     $(document).ready(function () {
         console.log("document is ready.........");
-        armButton();
+        setTimeout(buildFloatingMenu, 600);
     })
 
     const wait = 500;
@@ -31,42 +31,45 @@
     let uniqueLastName = convertIntToString(d);
     let email = d + '@test.com';
 
-    let floatingMenu = document.createElement("span");
-    floatingMenu.setAttribute("id", "floatingMenu");
-    floatingMenu.setAttribute("style", "right: 30px;top: 80px; position:fixed; visibility: visible;display: flex;flex-flow: column; row-gap: 10px;");
-
-
-    let qualifiedBtn = document.createElement("BUTTON");
-    qualifiedBtn.setAttribute('content', 'Autofill Qualified Form');
-    qualifiedBtn.textContent = "Autofill Qualified Form"
-    qualifiedBtn.setAttribute("style", "background: skyblue; font-family: sans-serif; padding: 10px; border-radius: 10px;");
-    qualifiedBtn.onclick = fillFormQualified;
-
-    let unqualifiedBtn = document.createElement("BUTTON");
-    unqualifiedBtn.setAttribute('content', 'Autofill Unqualified Form');
-    unqualifiedBtn.textContent = "Autofill Unqualified Form"
-    unqualifiedBtn.setAttribute("style", "background: firebrick; font-family: sans-serif; padding: 10px; border-radius: 10px;");
-    unqualifiedBtn.onclick = fillFormUnqualified;
-
-    floatingMenu.appendChild(qualifiedBtn);
-    floatingMenu.appendChild(unqualifiedBtn);
-    $(document.body).append(floatingMenu);
-
     init();
 
-    function armButton() {
-        console.log("ArMiNg button");
-        setTimeout( function () {
-            // hide button and unbind arrive if user doesn't use it
-            $("button[type=submit]").on("click", function() {
-                // console.log("clicked button");
-                haltAutofill = true;
-                $(document).unbindArrive();
-                document.getElementById("floatingMenu").style.visibility = "hidden";
-                // doesn't always work??
-                setTimeout($(document).unbindArrive(), 10);
-            });
-        }, 200);
+    function buildFloatingMenu() {
+        let submitButtonTop = $("button[type=submit]").position().top;
+
+        let floatingMenu = document.createElement("DIV");
+        floatingMenu.setAttribute("id", "floatingMenu");
+        floatingMenu.setAttribute("style", "top: " + submitButtonTop + "px; margin: auto; width: 40%; left: 30%; border: 3px solid #73AD21; padding: 10px; background-color:grey; position:absolute; visibility: visible;display: flex;flex-flow: column; row-gap: 10px;");
+
+
+        let qualifiedBtn = document.createElement("BUTTON");
+        qualifiedBtn.setAttribute('content', 'Autofill Qualified Form');
+        qualifiedBtn.textContent = "Autofill Qualified Form"
+        qualifiedBtn.setAttribute("style", "background: lightgreen; font-family: sans-serif; padding: 10px; border-radius: 10px;");
+        qualifiedBtn.onclick = fillFormQualified;
+
+        let unqualifiedBtn = document.createElement("BUTTON");
+        unqualifiedBtn.setAttribute('content', 'Autofill Unqualified Form');
+        unqualifiedBtn.textContent = "Autofill Unqualified Form"
+        unqualifiedBtn.setAttribute("style", "background: yellow; font-family: sans-serif; padding: 10px; border-radius: 10px;");
+        unqualifiedBtn.onclick = fillFormUnqualified;
+
+        let cancelBtn = document.createElement("BUTTON");
+        cancelBtn.setAttribute('content', 'CANCEL Autofill');
+        cancelBtn.textContent = "CANCEL Autofill"
+        cancelBtn.setAttribute("style", "background: lightpink; font-family: sans-serif; padding: 10px; border-radius: 10px;");
+        cancelBtn.onclick = cancelAutoFill;
+
+        floatingMenu.appendChild(qualifiedBtn);
+        floatingMenu.appendChild(unqualifiedBtn);
+        floatingMenu.appendChild(cancelBtn);
+        $(document.body).append(floatingMenu);
+
+    }
+
+    function cancelAutoFill() {
+        haltAutofill = true;
+        $(document).unbindArrive();
+        document.getElementById("floatingMenu").style.visibility = "hidden";
     }
 
     function convertIntToString(num) {
@@ -92,8 +95,6 @@
     function fillForm() {
         // hide menu
         document.getElementById("floatingMenu").style.visibility = "hidden";
-        // unbind click on btn
-        $("button[type=submit]").prop("onclick", null).off("click");
 
         // first q should be onscreen and not need to wait
         $(".yes").click();
@@ -108,7 +109,6 @@
         d = new Date().valueOf();
         uniqueLastName = convertIntToString(d);
         email = d + '@test.com';
-        armButton();
         haltAutofill = false;
     };
 
@@ -131,7 +131,7 @@
         });
 
         // sex and DOB
-        $(document).arrive("input[type=text]", function () {
+        $(document).arrive("#question_content_1003", function () {
             if (haltAutofill) {
                 return;
             }           
