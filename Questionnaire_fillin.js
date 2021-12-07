@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.3.0
+// @version      0.3.1
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -21,7 +21,7 @@
 
     $(document).ready(function () {
         console.log("document is ready.........");
-        setTimeout(buildFloatingMenu, 600);
+        getSubmitButtonTop();
     })
 
     const wait = 500;
@@ -30,12 +30,26 @@
     let d = new Date().valueOf();
     let uniqueLastName = convertIntToString(d);
     let email = d + '@test.com';
-
+    let submitButtonTop = 700;
     init();
 
-    function buildFloatingMenu() {
-        let submitButtonTop = $("button[type=submit]").position().top;
+    function getSubmitButtonTop() {
+        console.log("buton tyopeo of is " + typeof $("button[type=submit]"))
+        if (typeof $("button[type=submit]").position() === "undefined") {
+            setTimeout(getSubmitButtonTop, 200);
+            return;
+        }
 
+        if ( $("button[type=submit]").position().top < 100) {
+            setTimeout(getSubmitButtonTop, 200);
+            return;
+        }
+
+        submitButtonTop = $("button[type=submit]").position().top;
+        buildFloatingMenu();
+    }
+
+    function buildFloatingMenu() {
         let floatingMenu = document.createElement("DIV");
         floatingMenu.setAttribute("id", "floatingMenu");
         floatingMenu.setAttribute("style", "top: " + submitButtonTop + "px; margin: auto; width: 40%; left: 30%; border: 3px solid #73AD21; padding: 10px; background-color:grey; position:absolute; visibility: visible;display: flex;flex-flow: column; row-gap: 10px;");
