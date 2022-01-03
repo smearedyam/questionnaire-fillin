@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.3.1
+// @version      0.3.2
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -9,7 +9,8 @@
 // @match        https://www.tampermonkey.net/index.php?version=4.13&ext=dhdg&updated=true
 // @icon         https://www.google.com/s2/favicons?domain=tampermonkey.net
 // @grant        none
-// @include      http://localhost:3000/questionnaire
+// @include      http://localhost:3000/questionnaire*
+// @include      http://localhost:3001/questionnaire*
 // @include      https://watchman-spur.stage.apps.bsci.com/questionnaire
 // @include      https://watchman-spur.dev.apps.bsci.com/questionnaire
 // @run-at document-idle
@@ -17,10 +18,10 @@
 
 (function() {
     'use strict';
-    console.log("starting.........");
+    // console.log("starting.........");
 
     $(document).ready(function () {
-        console.log("document is ready.........");
+        // console.log("document is ready.........");
         getSubmitButtonTop();
     })
 
@@ -34,7 +35,7 @@
     init();
 
     function getSubmitButtonTop() {
-        console.log("buton tyopeo of is " + typeof $("button[type=submit]"))
+        // console.log("buton type of is " + typeof $("button[type=submit]"))
         if (typeof $("button[type=submit]").position() === "undefined") {
             setTimeout(getSubmitButtonTop, 200);
             return;
@@ -119,7 +120,7 @@
 
     window.onpopstate = function(){
         document.getElementById("floatingMenu").style.visibility = "visible";
-        console.log("POPPIN....");
+        // console.log("POPPIN....");
         d = new Date().valueOf();
         uniqueLastName = convertIntToString(d);
         email = d + '@test.com';
