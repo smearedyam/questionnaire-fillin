@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.3.3
+// @version      0.3.4
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -130,9 +130,6 @@
     function init() {
         //  2nd question
         $(document).arrive("#question_content_1002", function () {
-            if (haltAutofill) {
-                return;
-            }
             if (qualified) {
                 $(".yes").click();
             } else {
@@ -146,10 +143,7 @@
         });
 
         // sex and DOB
-        $(document).arrive("#question_content_1003", function () {
-            if (haltAutofill) {
-                return;
-            }           
+        $(document).arrive("#question_content_1003", function () {         
             // sex
             $(".v-input--selection-controls__ripple").click();
             // dob
@@ -165,13 +159,13 @@
             if (haltAutofill) {
                 return;
             }            
-            $("#option_10041").click();
+            $("#option_10041").parent().click();
             if (qualified) {
                 setTimeout( function () {
-                   $("#option_10042").click();
+                   $("#option_10042").parent().click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#option_10043").click();
+                    $("#option_10043").parent().click();
                 }, wait/2);
             }
             setTimeout( function () {
@@ -180,17 +174,14 @@
         });
 
         // Q5
-        $(document).arrive("#option_10051", function () {
-            if (haltAutofill) {
-                return;
-            }            
-            $("#option_10051").click();
+        $(document).arrive("#option_10051", function () {       
+            $("#option_10051").parent().click();
             if (qualified) {
                 setTimeout( function () {
-                    $("#option_10052").click();
+                    $("#option_10052").parent().click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#option_10053").click();
+                    $("#option_10053").parent().click();
                 }, wait/2);
 
             }
@@ -200,17 +191,14 @@
         });
 
         // Q6
-        $(document).arrive("#option_10061", function () {
-            if (haltAutofill) {
-                return;
-            }            
-            $("#option_10061").click();
+        $(document).arrive("#option_10061", function () {           
+            $("#option_10061").parent().click();
             if (qualified) {
                 setTimeout( function () {
-                    $("#option_10062").click();
+                    $("#option_10062").parent().click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#option_10063").click();
+                    $("#option_10063").parent().click();
                 }, wait/2);
             }
             setTimeout( function () {
@@ -219,13 +207,8 @@
         });
 
         // Name/address/dob
-        $(document).arrive(".form-entry-header", function () {
-            if (haltAutofill) {
-                return;
-            }            
+        $(document).arrive(".form-entry-header", function () {         
             setTimeout( function () {
-
-
                 $("input[inputmode=numeric]").val("90210")[0].dispatchEvent(new Event('input'));
                 $("input[type=text]:not('[inputmode=numeric]')").val("firstTest" + (qualified ? "" : "UNqualified"))[0].dispatchEvent(new Event('input'));
                 $("input[type=text]:not('[inputmode=numeric]')").val("lastTest" + uniqueLastName + (qualified ? "" : "UNqualified"))[1].dispatchEvent(new Event('input'));
