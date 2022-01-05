@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.3.4
+// @version      0.3.5
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -53,25 +53,25 @@
     function buildFloatingMenu() {
         let floatingMenu = document.createElement("DIV");
         floatingMenu.setAttribute("id", "floatingMenu");
-        floatingMenu.setAttribute("style", "top: " + submitButtonTop + "px; margin: auto; width: 40%; left: 30%; border: 3px solid #73AD21; padding: 10px; background-color:grey; position:absolute; visibility: visible;display: flex;flex-flow: column; row-gap: 10px;");
+        floatingMenu.setAttribute("style", "top: " + submitButtonTop + "px; margin: auto; width: 90%; left: 5%; border: 3px solid #73AD21; padding: 70px; background-color:grey; position:absolute; visibility: visible;display: flex;flex-flow: column; row-gap: 10px; align-items: center;");
 
 
         let qualifiedBtn = document.createElement("BUTTON");
         qualifiedBtn.setAttribute('content', 'Autofill Qualified Form');
         qualifiedBtn.textContent = "Autofill Qualified Form"
-        qualifiedBtn.setAttribute("style", "background: lightgreen; font-family: sans-serif; padding: 10px; border-radius: 10px;");
+        qualifiedBtn.setAttribute("style", "background: lightgreen; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
         qualifiedBtn.onclick = fillFormQualified;
 
         let unqualifiedBtn = document.createElement("BUTTON");
         unqualifiedBtn.setAttribute('content', 'Autofill Unqualified Form');
         unqualifiedBtn.textContent = "Autofill Unqualified Form"
-        unqualifiedBtn.setAttribute("style", "background: yellow; font-family: sans-serif; padding: 10px; border-radius: 10px;");
+        unqualifiedBtn.setAttribute("style", "background: yellow; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
         unqualifiedBtn.onclick = fillFormUnqualified;
 
         let cancelBtn = document.createElement("BUTTON");
         cancelBtn.setAttribute('content', 'CANCEL Autofill');
         cancelBtn.textContent = "CANCEL Autofill"
-        cancelBtn.setAttribute("style", "background: lightpink; font-family: sans-serif; padding: 10px; border-radius: 10px;");
+        cancelBtn.setAttribute("style", "background: lightpink; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
         cancelBtn.onclick = cancelAutoFill;
 
         floatingMenu.appendChild(qualifiedBtn);
@@ -143,7 +143,7 @@
         });
 
         // sex and DOB
-        $(document).arrive("#question_content_1003", function () {         
+        $(document).arrive("#question_content_1003", function () {
             // sex
             $(".v-input--selection-controls__ripple").click();
             // dob
@@ -155,17 +155,14 @@
         });
 
         // Q4
-        $(document).arrive("#option_10041", function () {
-            if (haltAutofill) {
-                return;
-            }            
-            $("#option_10041").parent().click();
+        $(document).arrive("#question_content_1004", function () {
+            $("#question_content_1004 .v-input:nth-child(1) label").click();
             if (qualified) {
                 setTimeout( function () {
-                   $("#option_10042").parent().click();
+                   $("#question_content_1004 .v-input:nth-child(2) label").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#option_10043").parent().click();
+                    $("#question_content_1004 .v-input:nth-child(3) label").click();
                 }, wait/2);
             }
             setTimeout( function () {
@@ -174,14 +171,14 @@
         });
 
         // Q5
-        $(document).arrive("#option_10051", function () {       
-            $("#option_10051").parent().click();
+        $(document).arrive("#question_content_1005", function () {
+            $("#question_content_1005 .v-input:nth-child(1) label").click();
             if (qualified) {
                 setTimeout( function () {
-                    $("#option_10052").parent().click();
+                    $("#question_content_1005 .v-input:nth-child(2) label").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#option_10053").parent().click();
+                    $("#question_content_1005 .v-input:nth-child(3) label").click();
                 }, wait/2);
 
             }
@@ -191,14 +188,14 @@
         });
 
         // Q6
-        $(document).arrive("#option_10061", function () {           
-            $("#option_10061").parent().click();
+        $(document).arrive("#question_content_1006", function () {
+            $("#question_content_1006 .v-input:nth-child(1) label").click();
             if (qualified) {
                 setTimeout( function () {
-                    $("#option_10062").parent().click();
+                    $("#question_content_1006 .v-input:nth-child(2) label").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#option_10063").parent().click();
+                    $("#question_content_1006 .v-input:nth-child(3) label").click();
                 }, wait/2);
             }
             setTimeout( function () {
@@ -207,7 +204,7 @@
         });
 
         // Name/address/dob
-        $(document).arrive(".form-entry-header", function () {         
+        $(document).arrive(".form-entry-header", function () {
             setTimeout( function () {
                 $("input[inputmode=numeric]").val("90210")[0].dispatchEvent(new Event('input'));
                 $("input[type=text]:not('[inputmode=numeric]')").val("firstTest" + (qualified ? "" : "UNqualified"))[0].dispatchEvent(new Event('input'));
