@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.3.5
+// @version      0.3.6
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -24,7 +24,7 @@
         // console.log("document is ready.........");
         getSubmitButtonTop();
     })
-
+    const version = "v0.3.6";
     const wait = 500;
     let qualified = true;
     let haltAutofill = false;
@@ -73,10 +73,15 @@
         cancelBtn.textContent = "CANCEL Autofill"
         cancelBtn.setAttribute("style", "background: lightpink; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
         cancelBtn.onclick = cancelAutoFill;
+        
+        let versionSpan = document.createElement("span");
+        versionSpan.textContent = version;
+        versionSpan.setAttribute("style", "position:absolute;top:10px;left:10px;");
 
         floatingMenu.appendChild(qualifiedBtn);
         floatingMenu.appendChild(unqualifiedBtn);
         floatingMenu.appendChild(cancelBtn);
+        floatingMenu.appendChild(versionSpan);
         $(document.body).append(floatingMenu);
 
     }
@@ -128,6 +133,42 @@
     };
 
     function init() {
+        initSurvey1000();
+        initSurvey14000();
+
+        // Name/address/dob
+        $(document).arrive(".form-entry-header", function () {
+            setTimeout( function () {
+                $("input[inputmode=numeric]").val("90210")[0].dispatchEvent(new Event('input'));
+                $("input[type=text]:not('[inputmode=numeric]')").val("firstTest" + (qualified ? "" : "UNqualified"))[0].dispatchEvent(new Event('input'));
+                $("input[type=text]:not('[inputmode=numeric]')").val("lastTest" + uniqueLastName + (qualified ? "" : "UNqualified"))[1].dispatchEvent(new Event('input'));
+                $("input[type=email]").val(email)[0].dispatchEvent(new Event('input'));
+                //             $vm0.firstNAme = "first";
+                //             $vm1.lastName = "last";
+                //             $vm.emailAddress = email;
+
+            }, wait/3);
+
+        });
+
+        // Phone modal
+        $(document).arrive(".phone-modal", function () {
+            // sex and DOB
+            setTimeout( function () {
+                $("input[type=tel]").val(getPhoneNumber())[0].dispatchEvent(new Event('input'));
+            }, wait/3);
+        });
+    }
+
+    function getPhoneNumber() {
+        let pn = d.toString().substring(3);
+        if (pn.startsWith('0') || pn.startsWith('1')) {
+            pn = "9" + pn.substring(1);
+        }
+        return pn;
+    }
+
+    function initSurvey1000() {
         //  2nd question
         $(document).arrive("#question_content_1002", function () {
             if (qualified) {
@@ -202,28 +243,82 @@
                 $("button[type=submit]").click();
             }, wait);
         });
+    }
 
-        // Name/address/dob
-        $(document).arrive(".form-entry-header", function () {
+        function initSurvey14000() {
+        //  2nd question
+        $(document).arrive("#question_content_14002", function () {
+            if (qualified) {
+                $(".yes").click();
+            } else {
+                $(".no").click();
+            }
+
             setTimeout( function () {
-                $("input[inputmode=numeric]").val("90210")[0].dispatchEvent(new Event('input'));
-                $("input[type=text]:not('[inputmode=numeric]')").val("firstTest" + (qualified ? "" : "UNqualified"))[0].dispatchEvent(new Event('input'));
-                $("input[type=text]:not('[inputmode=numeric]')").val("lastTest" + uniqueLastName + (qualified ? "" : "UNqualified"))[1].dispatchEvent(new Event('input'));
-                $("input[type=email]").val(email)[0].dispatchEvent(new Event('input'));
-                //             $vm0.firstNAme = "first";
-                //             $vm1.lastName = "last";
-                //             $vm.emailAddress = email;
-
-            }, wait/3);
+                $("button[type=submit]").click();
+            }, wait/2)
 
         });
 
-        // Phone modal
-        $(document).arrive(".phone-modal", function () {
-            // sex and DOB
+        // sex and DOB
+        $(document).arrive("#question_content_14003", function () {
+            // sex
+            $(".v-input--selection-controls__ripple").click();
+            // dob
+            $("input[type=text]").val("11111911").blur();
             setTimeout( function () {
-                $("input[type=tel]").val("2223334444")[0].dispatchEvent(new Event('input'));
-            }, wait/3);
+                $("button[type=submit]").click();
+            }, wait);
+
+        });
+
+        // Q4
+        $(document).arrive("#question_content_14004", function () {
+            $("#question_content_14004 .v-input:nth-child(1) label").click();
+            if (qualified) {
+                setTimeout( function () {
+                   $("#question_content_14004 .v-input:nth-child(2) label").click();
+                }, wait/3);
+                setTimeout( function () {
+                    $("#question_content_14004 .v-input:nth-child(3) label").click();
+                }, wait/2);
+            }
+            setTimeout( function () {
+                $("button[type=submit]").click();
+            }, wait);
+        });
+
+        // Q5
+        $(document).arrive("#question_content_14005", function () {
+            $("#question_content_14005 .v-input:nth-child(1) label").click();
+            if (qualified) {
+                setTimeout( function () {
+                    $("#question_content_14005 .v-input:nth-child(2) label").click();
+                }, wait/3);
+                setTimeout( function () {
+                    $("#question_content_14005 .v-input:nth-child(3) label").click();
+                }, wait/2);
+
+            }
+            setTimeout( function () {
+                $("button[type=submit]").click();
+            }, wait);
+        });
+
+        // Q6
+        $(document).arrive("#question_content_14006", function () {
+            $("#question_content_14006 .v-input:nth-child(1) label").click();
+            if (qualified) {
+                setTimeout( function () {
+                    $("#question_content_14006 .v-input:nth-child(2) label").click();
+                }, wait/3);
+                setTimeout( function () {
+                    $("#question_content_14006 .v-input:nth-child(3) label").click();
+                }, wait/2);
+            }
+            setTimeout( function () {
+                $("button[type=submit]").click();
+            }, wait);
         });
     }
 })();
