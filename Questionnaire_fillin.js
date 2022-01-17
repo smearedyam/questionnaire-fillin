@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.3.7
+// @version      0.3.8
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -24,7 +24,7 @@
         // console.log("document is ready.........");
         getSubmitButtonTop();
     })
-    const version = "v0.3.7";
+    const version = "v0.3.8";
     const wait = 500;
     let qualified = true;
     let haltAutofill = false;
@@ -197,13 +197,13 @@
 
         // Q4
         $(document).arrive("#question_content_1004", function () {
-            $("#question_content_1004 .v-input:nth-child(1) label").click();
+            $("#question_content_1004 label[for='option_10041']").click();
             if (qualified) {
                 setTimeout( function () {
-                   $("#question_content_1004 .v-input:nth-child(2) label").click();
+                   $("#question_content_1004 label[for='option_10042']").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#question_content_1004 .v-input:nth-child(3) label").click();
+                    $("#question_content_1004 .label[for='option_10043']").click();
                 }, wait/2);
             }
             setTimeout( function () {
@@ -213,13 +213,13 @@
 
         // Q5
         $(document).arrive("#question_content_1005", function () {
-            $("#question_content_1005 .v-input:nth-child(1) label").click();
+            $("#question_content_1005 label[for='option_10051']").click();
             if (qualified) {
                 setTimeout( function () {
-                    $("#question_content_1005 .v-input:nth-child(2) label").click();
+                    $("#question_content_1005 label[for='option_10052']").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#question_content_1005 .v-input:nth-child(3) label").click();
+                    $("#question_content_1005 label[for='option_10053']").click();
                 }, wait/2);
 
             }
@@ -230,13 +230,13 @@
 
         // Q6
         $(document).arrive("#question_content_1006", function () {
-            $("#question_content_1006 .v-input:nth-child(1) label").click();
+            $("#question_content_1006 label[for='option_10061']").click();
             if (qualified) {
                 setTimeout( function () {
-                    $("#question_content_1006 .v-input:nth-child(2) label").click();
+                    $("#question_content_1006 label[for='option_10062']").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#question_content_1006 .v-input:nth-child(3) label").click();
+                    $("#question_content_1006 label[for='option_10063']").click();
                 }, wait/2);
             }
             setTimeout( function () {
@@ -274,13 +274,13 @@
 
         // Q4
         $(document).arrive("#question_content_14004", function () {
-            $("#question_content_14004 .v-input:nth-child(1) label").click();
+            $("#question_content_14004 label[for='option_140041']").click();
             if (qualified) {
                 setTimeout( function () {
-                   $("#question_content_14004 .v-input:nth-child(2) label").click();
+                   $("#question_content_14004 label[for='option_140042']").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#question_content_14004 .v-input:nth-child(3) label").click();
+                    $("#question_content_14004 label[for='option_140043']").click();
                 }, wait/2);
             }
             setTimeout( function () {
@@ -290,13 +290,13 @@
 
         // Q5
         $(document).arrive("#question_content_14005", function () {
-            $("#question_content_14005 .v-input:nth-child(1) label").click();
+            $("#question_content_14005 label[for='option_140051']").click();
             if (qualified) {
                 setTimeout( function () {
-                    $("#question_content_14005 .v-input:nth-child(2) label").click();
+                    $("#question_content_14005 label[for='option_140052']").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#question_content_14005 .v-input:nth-child(3) label").click();
+                    $("#question_content_14005 label[for='option_140053']").click();
                 }, wait/2);
 
             }
@@ -307,13 +307,13 @@
 
         // Q6
         $(document).arrive("#question_content_14006", function () {
-            $("#question_content_14006 .v-input:nth-child(1) label").click();
+            $("#question_content_14006 label[for='option_140061']").click();
             if (qualified) {
                 setTimeout( function () {
-                    $("#question_content_14006 .v-input:nth-child(2) label").click();
+                    $("#question_content_14006 label[for='option_140062']").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#question_content_14006 .v-input:nth-child(3) label").click();
+                    $("#question_content_14006 label[for='option_140063']").click();
                 }, wait/2);
             }
             setTimeout( function () {
@@ -323,13 +323,13 @@
             
         // Q7
         $(document).arrive("#question_content_14007", function () {
-            $("#question_content_14007 .v-input:nth-child(1) label").click();
+            $("#question_content_14007 label[for='option_140071']").click();
             if (qualified) {
                 setTimeout( function () {
-                    $("#question_content_14007 .v-input:nth-child(2) label").click();
+                    $("#question_content_14007 label[for='option_140072']").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#question_content_14007 .v-input:nth-child(3) label").click();
+                    $("#question_content_14007 label[for='option_140073']").click();
                 }, wait/2);
             }
             setTimeout( function () {
