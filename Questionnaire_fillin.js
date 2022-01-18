@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.3.8
+// @version      0.3.9
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -24,7 +24,7 @@
         // console.log("document is ready.........");
         getSubmitButtonTop();
     })
-    const version = "v0.3.8";
+    const version = "v0.3.9";
     const wait = 500;
     let qualified = true;
     let haltAutofill = false;
@@ -169,7 +169,7 @@
     }
 
     function initSurvey1000() {
-        //  2nd question
+        //  2nd question 'prescribed blood thinners?'
         $(document).arrive("#question_content_1002", function () {
             if (qualified) {
                 $(".yes").click();
@@ -186,7 +186,7 @@
         // sex and DOB
         $(document).arrive("#question_content_1003", function () {
             // sex
-            $(".v-input--selection-controls__ripple").click();
+            $(".female").click();
             // dob
             $("input[type=text]").val("11111911").blur();
             setTimeout( function () {
@@ -203,7 +203,7 @@
                    $("#question_content_1004 label[for='option_10042']").click();
                 }, wait/3);
                 setTimeout( function () {
-                    $("#question_content_1004 .label[for='option_10043']").click();
+                    $("#question_content_1004 label[for='option_10043']").click();
                 }, wait/2);
             }
             setTimeout( function () {
@@ -263,7 +263,7 @@
         // sex and DOB
         $(document).arrive("#question_content_14003", function () {
             // sex
-            $(".v-input--selection-controls__ripple").click();
+            $(".female").click();
             // dob
             $("input[type=text]").val("11111911").blur();
             setTimeout( function () {
