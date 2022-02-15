@@ -19,14 +19,12 @@
 (function() {
     'use strict';
     // console.log("starting.........");
-    let body = document.getElementById('btn-reset');
-
 
     $(document).ready(function () {
         // console.log("document is ready.........");
         getSubmitButtonTop();
 
-        body.addEventListener('keyup', (e) => {
+        document.body.addEventListener('keyup', (e) => {
             if (e.key == "F4") {
                 [].forEach.call($$("*"),function(a){a.style.outline="1px solid #"+(~~(Math.random()*(1<<24))).toString(16)})
             }
