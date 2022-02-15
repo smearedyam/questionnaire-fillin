@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.4.0
+// @version      0.4.1
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -31,7 +31,7 @@
         });
 
     })
-    const version = "v0.4.0";
+    const version = "v0.4.1";
     const wait = 500;
     let qualified = true;
     let haltAutofill = false;
