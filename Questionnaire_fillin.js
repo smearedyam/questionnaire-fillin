@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.4.3
+// @version      0.5.0
 // @description  Autofill the Watchman Implant Questionnaire
-// @author       Adam Meyers
+// @author       Adam Meyers & Andrew Hamlett
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
 // @require      https://raw.githubusercontent.com/uzairfarooq/arrive/master/minified/arrive.min.js
 // @match        https://www.tampermonkey.net/index.php?version=4.13&ext=dhdg&updated=true
@@ -24,7 +24,7 @@
         // console.log("document is ready.........");
         getSubmitButtonTop();
     })
-    const version = "v0.4.3";
+    const version = "v0.5.0";
     const wait = 500;
     let qualified = true;
     let d = new Date().valueOf();
@@ -58,27 +58,53 @@
         let qualifiedBtn = document.createElement("BUTTON");
         qualifiedBtn.setAttribute('content', 'Autofill Qualified Form');
         qualifiedBtn.textContent = "Autofill Qualified Form"
-        qualifiedBtn.setAttribute("style", "background: lightgreen; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
+        qualifiedBtn.setAttribute("style", "background: rgb(255,255,255); background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(67,185,67,1) 100%); font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
         qualifiedBtn.onclick = fillFormQualified;
 
         let unqualifiedBtn = document.createElement("BUTTON");
         unqualifiedBtn.setAttribute('content', 'Autofill Unqualified Form');
         unqualifiedBtn.textContent = "Autofill Unqualified Form"
-        unqualifiedBtn.setAttribute("style", "background: yellow; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
+        unqualifiedBtn.setAttribute("style", "background: rgb(255,255,255);background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(238,155,41,1) 100%); font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
         unqualifiedBtn.onclick = fillFormUnqualified;
+
+        let qualifiedHeadless = document.createElement("BUTTON");
+        qualifiedHeadless.setAttribute('content', 'qualified headless');
+        qualifiedHeadless.textContent = "Qualified Landing Page (new patient with phone)"
+        qualifiedHeadless.setAttribute("style", "background: #80e380; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
+        qualifiedHeadless.onclick = qualifiedHeadlessFunc;
+
+        let qualifiedPhoneHeadless = document.createElement("BUTTON");
+        qualifiedPhoneHeadless.setAttribute('content', 'qualified No Phone headless');
+        qualifiedPhoneHeadless.textContent = "Qualified Landing Page (new patient no phone)"
+        qualifiedPhoneHeadless.setAttribute("style", "background: #d7fed7; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
+        qualifiedPhoneHeadless.onclick = qualifiedNoPhoneHeadlessFunc;
+
+        let unqualifiedHeadless = document.createElement("BUTTON");
+        unqualifiedHeadless.setAttribute('content', 'unqualified  headless');
+        unqualifiedHeadless.textContent = "Unqualified Landing Page"
+        unqualifiedHeadless.setAttribute("style", "background: #f5b153; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
+        unqualifiedHeadless.onclick = unqualifiedHeadlessFunc;
 
         let cancelBtn = document.createElement("BUTTON");
         cancelBtn.setAttribute('content', 'CANCEL Autofill');
         cancelBtn.textContent = "CANCEL Autofill"
-        cancelBtn.setAttribute("style", "background: lightpink; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
+        cancelBtn.setAttribute("style", "background: #F05D5E; font-family: sans-serif; padding: 10px; border-radius: 10px; width:40%");
         cancelBtn.onclick = cancelAutoFill;
-        
+
         let versionSpan = document.createElement("span");
         versionSpan.textContent = version;
         versionSpan.setAttribute("style", "position:absolute;top:10px;left:10px;");
 
+        let divider = document.createElement("div");
+        divider.setAttribute("style", "height:5px;");
+
         floatingMenu.appendChild(qualifiedBtn);
         floatingMenu.appendChild(unqualifiedBtn);
+        floatingMenu.appendChild(divider);
+        floatingMenu.appendChild(qualifiedHeadless);
+        floatingMenu.appendChild(qualifiedPhoneHeadless);
+        floatingMenu.appendChild(unqualifiedHeadless);
+        floatingMenu.appendChild(divider.cloneNode());
         floatingMenu.appendChild(cancelBtn);
         floatingMenu.appendChild(versionSpan);
         $(document.body).append(floatingMenu);
@@ -91,9 +117,51 @@
         } catch { }
         try {
             Arrive.unbindAllArrive();
-        } catch { }
-        
+        } catch { console.log('Arrive.unbindAllArrive failed......'); }
+
         document.getElementById("floatingMenu").style.visibility = "hidden";
+    }
+
+    function qualifiedHeadlessFunc(){
+       let req_body = generateRequestBody()
+       let url = window.location.origin
+        fetch(`${url}/api/patient`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(req_body)
+        }).then(response => response.json())
+          .then(data => {
+            window.location = `${url}/results/${data.patientId}`
+        })
+    }
+
+    function qualifiedNoPhoneHeadlessFunc(){
+       let req_body = generateRequestBody()
+       req_body.phone = ""
+       let url = window.location.origin
+        fetch(`${url}/api/patient`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(req_body)
+        }).then(response => response.json())
+          .then(data => {
+            window.location = `${url}/results/${data.patientId}`
+        })
+    }
+
+    function unqualifiedHeadlessFunc(){
+       qualified = false;
+       let req_body = generateRequestBody()
+       req_body.surveyResponse = "{\"1001\":[{\"parent_option_id\":10011}],\"1002\":[{\"parent_option_id\":10022}],\"1003\":[{\"parent_option_id\":10031}],\"1004\":[{\"parent_option_id\":10041}],\"1005\":[{\"parent_option_id\":10051}],\"1006\":[{\"parent_option_id\":10061}]}"
+       let url = window.location.origin
+        fetch(`${url}/api/patient`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(req_body)
+        }).then(response => response.json())
+          .then(data => {
+            window.location = `${url}/unqualified/${data.patientId}`
+        })
     }
 
     function convertIntToString(num) {
@@ -128,12 +196,21 @@
     }
 
     window.onpopstate = function(){
-        document.getElementById("floatingMenu").style.visibility = "visible";
         // console.log("POPPIN....");
+        qualified = true;
+        document.getElementById("floatingMenu").style.visibility = "visible";
         d = new Date().valueOf();
         uniqueLastName = convertIntToString(d);
         email = d + '@test.com';
     };
+
+    function getFirstName() {
+        return "firstTest" + (qualified ? "" : "UNqualified");
+    }
+
+    function getLastName() {
+        return "lastTest" + uniqueLastName + (qualified ? "" : "UNqualified");
+    }
 
     function init() {
         initSurvey1000();
@@ -143,8 +220,8 @@
         $(document).arrive(".form-entry-header", function () {
             setTimeout( function () {
                 $("input[inputmode=numeric]").val("90210")[0].dispatchEvent(new Event('input'));
-                $("input[type=text]:not('[inputmode=numeric]')").val("firstTest" + (qualified ? "" : "UNqualified"))[0].dispatchEvent(new Event('input'));
-                $("input[type=text]:not('[inputmode=numeric]')").val("lastTest" + uniqueLastName + (qualified ? "" : "UNqualified"))[1].dispatchEvent(new Event('input'));
+                $("input[type=text]:not('[inputmode=numeric]')").val( getFirstName() )[0].dispatchEvent(new Event('input'));
+                $("input[type=text]:not('[inputmode=numeric]')").val( getLastName() )[1].dispatchEvent(new Event('input'));
                 $("input[type=email]").val(email)[0].dispatchEvent(new Event('input'));
                 //             $vm0.firstNAme = "first";
                 //             $vm1.lastName = "last";
@@ -163,13 +240,32 @@
         });
     }
 
-    function getPhoneNumber() {
+    function getPhoneNumber(doFullFormat) {
         let pn = d.toString().substring(3);
         if (pn.startsWith('0') || pn.startsWith('1')) {
             pn = "9" + pn.substring(1);
         }
+        if (doFullFormat) {
+          pn = `+1 (${pn.substring(0,3)}) ${pn.substring(3,6)}-${pn.substring(6,10)}`;
+        }
         return pn;
     }
+
+    function generateRequestBody(){
+        return {
+            "firstName": getFirstName(),
+            "lastName": getLastName(),
+            "phone": getPhoneNumber(true),
+            "email": email,
+            "zipCode": "90210",
+            "emailValidationRequired": true,
+            "emailRequired": true,
+            "update": null,
+            "dateOfBirth": "11/11/1911",
+            "surveyResponse": "{\"1001\":[{\"parent_option_id\":10011}],\"1002\":[{\"parent_option_id\":10021}],\"1003\":[{\"parent_option_id\":10031}],\"1004\":[{\"parent_option_id\":10041},{\"parent_option_id\":10042},{\"parent_option_id\":10043}],\"1005\":[{\"parent_option_id\":10051},{\"parent_option_id\":10052},{\"parent_option_id\":10053}],\"1006\":[{\"parent_option_id\":10061},{\"parent_option_id\":10062},{\"parent_option_id\":10063}]}",
+            "surveyId": 1000
+        }
+    };
 
     function initSurvey1000() {
         //  2nd question 'prescribed blood thinners?'
@@ -260,7 +356,6 @@
             setTimeout( function () {
                 $("button[type=submit]").click();
             }, wait/2)
-
         });
 
         // sex and DOB
@@ -323,7 +418,7 @@
                 $("button[type=submit]").click();
             }, wait);
         });
-            
+
         // Q7
         $(document).arrive("#question_content_14007", function () {
             $("#question_content_14007 label[for='option_140071']").click();
