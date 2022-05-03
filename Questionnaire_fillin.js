@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.5.0
+// @version      0.5.1
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers & Andrew Hamlett
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -24,7 +24,7 @@
         // console.log("document is ready.........");
         getSubmitButtonTop();
     })
-    const version = "v0.5.0";
+    const version = "v0.5.1";
     const wait = 500;
     let qualified = true;
     let d = new Date().valueOf();
@@ -219,11 +219,11 @@
         // Name/address/dob
         $(document).arrive(".form-entry-header", function () {
             setTimeout( function () {
-                $("input[inputmode=numeric]").val("90210")[0].dispatchEvent(new Event('input'));
-                $("input[type=text]:not('[inputmode=numeric]')").val( getFirstName() )[0].dispatchEvent(new Event('input'));
-                $("input[type=text]:not('[inputmode=numeric]')").val( getLastName() )[1].dispatchEvent(new Event('input'));
-                $("input[type=email]").val(email)[0].dispatchEvent(new Event('input'));
-                //             $vm0.firstNAme = "first";
+                $(".zipcode-container input").val("90210")[0].dispatchEvent(new Event('input'));
+                $(".first-name-container input").val( getFirstName() )[0].dispatchEvent(new Event('input'));
+                $(".last-name-container input").val( getLastName() )[0].dispatchEvent(new Event('input'));
+                $(".email-container input").val(email)[0].dispatchEvent(new Event('input'));
+                //             $vm0.firstName = "first";
                 //             $vm1.lastName = "last";
                 //             $vm.emailAddress = email;
 
