@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.5.2
+// @version      0.5.3
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers & Andrew Hamlett
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -12,11 +12,11 @@
 // @include      http://localhost:3000/questionnaire*
 // @exclude      http://localhost:3000/questionnaire/resubmission*
 // @include      http://localhost:3001/questionnaire*
-// @exclude      http://localhost:3001/questionnairere/submission*
+// @exclude      http://localhost:3001/questionnairere/resubmission*
 // @include      https://watchman-spur.stage.apps.bsci.com/questionnaire*
-// @exclude      https://watchman-spur.stage.apps.bsci.com/questionnaire/submission*
+// @exclude      https://watchman-spur.stage.apps.bsci.com/questionnaire/resubmission*
 // @include      https://watchman-spur.dev.apps.bsci.com/questionnaire*
-// @exclude      https://watchman-spur.dev.apps.bsci.com/questionnaire/submission*
+// @exclude      https://watchman-spur.dev.apps.bsci.com/questionnaire/resubmission*
 // @run-at document-idle
 // ==/UserScript==
 
@@ -28,7 +28,7 @@
         // console.log("document is ready.........");
         getSubmitButtonTop();
     })
-    const version = "v0.5.2";
+    const version = "v0.5.3";
     const wait = 500;
     let qualified = true;
     let d = new Date().valueOf();
