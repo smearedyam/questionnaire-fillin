@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.5.3
+// @version      0.5.4
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers & Andrew Hamlett
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -28,12 +28,12 @@
         // console.log("document is ready.........");
         getSubmitButtonTop();
     })
-    const version = "v0.5.3";
+    const version = "v0.5.4";
     const wait = 500;
     let qualified = true;
     let d = new Date().valueOf();
     let uniqueLastName = convertIntToString(d);
-    let email = d + '@test.com';
+    let email = d + '@mail.com';
     let submitButtonTop = 700;
     init();
 
@@ -205,7 +205,7 @@
         document.getElementById("floatingMenu").style.visibility = "visible";
         d = new Date().valueOf();
         uniqueLastName = convertIntToString(d);
-        email = d + '@test.com';
+        email = d + '@mail.com';
     };
 
     function getFirstName() {
