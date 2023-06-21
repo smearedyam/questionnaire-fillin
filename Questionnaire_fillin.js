@@ -56,7 +56,7 @@
     function buildFloatingMenu() {
         let floatingMenu = document.createElement("DIV");
         floatingMenu.setAttribute("id", "floatingMenu");
-        floatingMenu.setAttribute("style", "top: " + submitButtonTop + "px; margin: auto; width: 90%; left: 5%; border: 3px solid #73AD21; padding: 70px; background-color:grey; position:absolute; visibility: visible;display: flex;flex-flow: column; row-gap: 10px; align-items: center;");
+        floatingMenu.setAttribute("style", "top: " + submitButtonTop + "px; margin: auto; width: 90%; left: 5%; border: 3px solid #73AD21; padding: 70px; background-color:grey; position:absolute; visibility: visible;display: flex;flex-flow: column; row-gap: 10px; align-items: center; z-index: 9999");
 
 
         let qualifiedBtn = document.createElement("BUTTON");
