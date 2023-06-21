@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Questionnaire
 // @namespace    http://tampermonkey.net/
-// @version      0.5.4
+// @version      0.5.5
 // @description  Autofill the Watchman Implant Questionnaire
 // @author       Adam Meyers & Andrew Hamlett
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js
@@ -28,7 +28,7 @@
         // console.log("document is ready.........");
         getSubmitButtonTop();
     })
-    const version = "v0.5.4";
+    const version = "v0.5.5";
     const wait = 500;
     let qualified = true;
     let d = new Date().valueOf();
@@ -56,7 +56,7 @@
     function buildFloatingMenu() {
         let floatingMenu = document.createElement("DIV");
         floatingMenu.setAttribute("id", "floatingMenu");
-        floatingMenu.setAttribute("style", "top: " + submitButtonTop + "px; margin: auto; width: 90%; left: 5%; border: 3px solid #73AD21; padding: 70px; background-color:grey; position:absolute; visibility: visible;display: flex;flex-flow: column; row-gap: 10px; align-items: center;");
+        floatingMenu.setAttribute("style", "top: " + submitButtonTop + "px; margin: auto; width: 90%; left: 5%; border: 3px solid #73AD21; padding: 70px; background-color:grey; position:absolute; visibility: visible;display: flex;flex-flow: column; row-gap: 10px; align-items: center; z-index: 9999;");
 
 
         let qualifiedBtn = document.createElement("BUTTON");
