@@ -292,8 +292,18 @@
         $(document).arrive("#question_content_1003", function () {
             // sex
             $(".female").click();
+            
             // dob
-            $("input[type=text]").val("11111911").blur();
+            // $("input[type=text]").val("11111911").blur();
+            // Find inputs
+            const input = $("input[type=text]");
+            // Set value
+            input.val('11111911');
+            // Create native event
+            const event = new Event('input', { bubbles: true });
+            // Dispatch the event on "native" element
+            input.get(0).dispatchEvent(event);
+            
             setTimeout( function () {
                 $("button[type=submit]").click();
             }, wait);
